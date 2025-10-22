@@ -1,0 +1,4 @@
+Number of samples per cluster:
+Cluster 0: 1505 samples
+Cluster 1: 1199 samples
+Cluster 2: 226 samples
