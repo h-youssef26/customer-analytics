@@ -179,3 +179,12 @@ python visualize.py
 python cluster.py
 bash summary.sh
 ```
+
+### Authors
+
+## Hajar Muhammad Abdelhaliem
+## Heba Youssef
+## Omar Magdy
+
+# Nile University — CSCI461: Introduction to Big Data
+# Fall 2025
