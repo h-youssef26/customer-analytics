@@ -2,7 +2,7 @@
 
 ##  Overview
 
-This project demonstrates a **complete data analytics workflow** — from **preprocessing** and **analysis** to **visualization** and **clustering** — all running inside a **Docker container**.  
+This project demonstrates a **complete data analytics workflow** from **preprocessing** and **analysis** to **visualization** and **clustering** all running inside a **Docker container**.  
 
 It uses the **Ames Housing dataset** to explore insights, visualize patterns, and apply K-Means clustering for data segmentation.
 
@@ -182,9 +182,9 @@ bash summary.sh
 
 ### Authors
 
-## Hajar Muhammad Abdelhaliem
-## Heba Youssef
-## Omar Magdy
+# Hajar Muhammad Abdelhaliem
+# Heba Youssef
+# Omar Magdy
 
 # Nile University — CSCI461: Introduction to Big Data
 # Fall 2025
