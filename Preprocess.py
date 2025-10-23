@@ -1,58 +1,41 @@
-# preprocess.py
 import pandas as pd
+import subprocess
+import sys
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import KBinsDiscretizer
 
-# Load data
-df = pd.read_csv("AmesHousing.csv")
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python preprocess.py <input_csv>")
+        sys.exit(1)
 
-# =============================
-# 1. Data Cleaning
-# =============================
-# Remove duplicates
-df = df.drop_duplicates()
+    input_path = sys.argv[1]
+    df = pd.read_csv("data_raw.csv")
 
-# Fill missing values
-for col in df.columns:
-    if df[col].dtype == "object":
-        df[col] = df[col].fillna(df[col].mode()[0])
-    else:
-        df[col] = df[col].fillna(df[col].median())
+    # ---- Data Cleaning ----
+    df = df.drop_duplicates()
+    df = df.fillna(df.mean(numeric_only=True))
 
-# =============================
-# 2. Feature Transformation
-# =============================
-# Identify numeric and categorical columns
-num_cols = df.select_dtypes(include=["int64", "float64"]).columns
-cat_cols = df.select_dtypes(include="object").columns
+    # ---- Feature Transformation ----
+    for col in df.select_dtypes(include="object"):
+        df[col] = LabelEncoder().fit_transform(df[col].astype(str))
 
-# Scale numeric columns
-scaler = StandardScaler()
-df_scaled = df.copy()
-df_scaled[num_cols] = scaler.fit_transform(df[num_cols])
+    num_cols = df.select_dtypes(include=["int64", "float64"]).columns
+    df[num_cols] = StandardScaler().fit_transform(df[num_cols])
 
-# =============================
-# 3. Dimensionality Reduction
-# =============================
-# Apply PCA only on scaled numeric columns
-pca = PCA(n_components=5)
-pca_features = pca.fit_transform(df_scaled[num_cols])
-pca_df = pd.DataFrame(pca_features, columns=[f"PCA_{i+1}" for i in range(5)])
+    # ---- Dimensionality Reduction ----
+    df_reduced = df.iloc[:, :5]
 
-# Add PCA features without removing categorical columns
-df = pd.concat([df.reset_index(drop=True), pca_df], axis=1)
+    # ---- Discretization ----
+    if df_reduced.shape[1] > 0:
+        df_reduced["binned_feature"] = pd.cut(df_reduced.iloc[:, 0], bins=3, labels=["Low", "Medium", "High"])
 
-# =============================
-# 4. Discretization
-# =============================
-# Discretize one numeric column (example: 'SalePrice' if exists)
-if 'SalePrice' in df.columns:
-    kb = KBinsDiscretizer(n_bins=4, encode='ordinal', strategy='quantile')
-    df['SalePrice_binned'] = kb.fit_transform(df[['SalePrice']])
+    df_reduced.to_csv("data_preprocessed.csv", index=False)
+    print("Preprocessing complete. Data saved as data_preprocessed.csv")
 
-# =============================
-# 5. Save processed data
-# =============================
-df.to_csv("data_preprocessed.csv", index=False)
-print("Data preprocessing complete. Saved as data_preprocessed.csv (categorical columns preserved)")
+    # ---- Call next script ----
+    subprocess.run(["python", "analytics.py", "data_preprocessed.csv"], check=True)
+
+if __name__ == "__main__":
+    main()

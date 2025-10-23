@@ -1,6 +1,0 @@
-Top 5 features most correlated with SalePrice:
-PCA_1               0.899341
-SalePrice_binned    0.827658
-Overall Qual        0.799262
-Gr Liv Area         0.706780
-Garage Cars         0.647812

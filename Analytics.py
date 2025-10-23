@@ -1,44 +1,31 @@
 # analytics.py
+import sys
 import pandas as pd
+import subprocess
 
-# Load preprocessed data
-df = pd.read_csv("data_preprocessed.csv")
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python analytics.py <input_csv>")
+        sys.exit(1)
 
-# 1. Insight 1: Correlation with SalePrice
-if 'SalePrice' in df.columns:
-    corr = df.corr(numeric_only=True)['SalePrice'].sort_values(ascending=False)
-    top_corr = corr[1:6]  # top 5 correlated features (excluding itself)
-    insight1 = "Top 5 features most correlated with SalePrice:\n"
-    insight1 += top_corr.to_string()
-else:
-    insight1 = "SalePrice column not found in dataset."
+    input_path = sys.argv[1]
+    df = pd.read_csv("data_preprocessed.csv")
 
-with open("insight1.txt", "w") as f:
-    f.write(insight1)
+    insights = []
 
+    # Example textual insights
+    insights.append(f"Dataset contains {df.shape[0]} rows and {df.shape[1]} columns.")
+    insights.append(f"Mean of first numeric column: {df.select_dtypes(include=['float64', 'int64']).iloc[:,0].mean():.2f}")
+    insights.append(f"Number of missing values: {df.isnull().sum().sum()}")
 
-# 2. Insight 2: Most common category for a categorical feature
+    for i, text in enumerate(insights, start=1):
+        with open(f"insight{i}.txt", "w") as f:
+            f.write(text)
 
-cat_cols = df.select_dtypes(include="object").columns
-if len(cat_cols) > 0:
-    col = cat_cols[0]
-    most_common = df[col].mode()[0]
-    freq = df[col].value_counts().iloc[0]
-    insight2 = f"Most common category in '{col}' is '{most_common}' appearing {freq} times."
-else:
-    insight2 = "No categorical columns found in dataset."
+    print("Analytics complete. Insights saved as insight1.txt, insight2.txt, insight3.txt")
 
-with open("insight2.txt", "w") as f:
-    f.write(insight2)
+    # Call next script
+    subprocess.run(["python", "visualize.py", "data_preprocessed.csv"])
 
-
-
-# 3. Insight 3: Numeric statistics summary
-num_cols = df.select_dtypes(include=["int64", "float64"]).columns
-desc = df[num_cols].describe().T[['mean', 'std', 'min', 'max']]
-insight3 = "Summary statistics for numeric columns:\n" + desc.to_string()
-
-with open("insight3.txt", "w") as f:
-    f.write(insight3)
-
-print("Insights generated: insight1.txt, insight2.txt, insight3.txt")
+if __name__ == "__main__":
+    main()

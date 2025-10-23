@@ -2,7 +2,7 @@
 FROM python:3.11-slim
 
 # Install dependencies
-RUN pip install pandas numpy matplotlib seaborn scikit-learn scipy requests
+RUN pip install --no-cache-dir pandas numpy matplotlib seaborn scikit-learn scipy requests
 
 # Create working directory
 WORKDIR /app/pipeline/
@@ -10,5 +10,5 @@ WORKDIR /app/pipeline/
 # Copy all project files
 COPY . /app/pipeline/
 
-# Set default command when container runs
+# Default command (interactive shell as per assignment)
 CMD ["/bin/bash"]

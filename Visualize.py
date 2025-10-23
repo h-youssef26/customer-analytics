@@ -1,21 +1,30 @@
 # visualize.py
+import sys
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
+import subprocess
 
-# Load preprocessed data
-df = pd.read_csv("data_preprocessed.csv")
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python visualize.py <input_csv>")
+        sys.exit(1)
 
-# Select only numeric columns
-num_cols = df.select_dtypes(include=["int64", "float64"]).columns
-corr = df[num_cols].corr()
+    input_path = sys.argv[1]
+    df = pd.read_csv("data_preprocessed.csv")
 
-# Create a correlation heatmap
-plt.figure(figsize=(10, 8))
-sns.heatmap(corr, cmap="coolwarm", annot=False)
-plt.title("Correlation Heatmap of Numeric Features", fontsize=14)
-plt.tight_layout()
+    # Example visualization: correlation heatmap
+    plt.figure(figsize=(8,6))
+    sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="Blues")
+    plt.title("Correlation Heatmap")
+    plt.tight_layout()
+    plt.savefig("summary_plot.png")
+    plt.close()
 
-# Save the plot
-plt.savefig("summary_plot.png", dpi=300)
-print("Visualization saved as summary_plot.png")
+    print("Visualization complete. Plot saved as summary_plot.png")
+
+    # Call next script
+    subprocess.run(["python", "cluster.py", "data_preprocessed.csv"])
+
+if __name__ == "__main__":
+    main()

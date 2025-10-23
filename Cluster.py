@@ -1,33 +1,31 @@
 # cluster.py
+import sys
 import pandas as pd
 from sklearn.cluster import KMeans
 
-# Load the preprocessed dataset
-df = pd.read_csv("data_preprocessed.csv")
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python cluster.py <input_csv>")
+        sys.exit(1)
 
+    input_path = sys.argv[1]
+    df = pd.read_csv("data_preprocessed.csv")
 
-# 1. Select subset of features
-# Use only numeric columns for clustering
-num_cols = df.select_dtypes(include=["int64", "float64"]).columns
+    # Select only numeric columns
+    num_cols = df.select_dtypes(include=["float64", "int64"]).columns
+    subset = df[num_cols].iloc[:, :5]
 
-# Use first few numeric columns to simplify clustering
-subset = df[num_cols].iloc[:, :5]  # first 5 numeric columns
+    kmeans = KMeans(n_clusters=3, random_state=42)
+    df["cluster"] = kmeans.fit_predict(subset)
 
+    cluster_counts = df["cluster"].value_counts().sort_index()
 
-# 2. Apply K-Means Clustering
-kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
-df['Cluster'] = kmeans.fit_predict(subset)
+    # Save cluster summary
+    with open("clusters.txt", "w") as f:
+        for cluster_id, count in cluster_counts.items():
+            f.write(f"Cluster {cluster_id}: {count} samples\n")
 
-# 3. Count samples per cluster
-cluster_counts = df['Cluster'].value_counts().sort_index()
+    print("Clustering complete. Results saved as clusters.txt")
 
-# Prepare output text
-output = "Number of samples per cluster:\n"
-for cluster_id, count in cluster_counts.items():
-    output += f"Cluster {cluster_id}: {count} samples\n"
-
-# Save to clusters.txt
-with open("clusters.txt", "w") as f:
-    f.write(output)
-
-print("Clustering complete. Results saved in clusters.txt")
+if __name__ == "__main__":
+    main()
