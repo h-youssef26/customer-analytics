@@ -180,11 +180,11 @@ python cluster.py
 bash summary.sh
 ```
 
-### Authors
+# Authors
 
-# Hajar Muhammad Abdelhaliem
-# Heba Youssef
-# Omar Magdy
+### Hajar Muhammad Abdelhaliem
+### Heba Youssef
+### Omar Magdy
 
-# Nile University — CSCI461: Introduction to Big Data
-# Fall 2025
+### Nile University — CSCI461: Introduction to Big Data
+### Fall 2025
