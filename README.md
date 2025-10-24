@@ -14,7 +14,7 @@ It uses the **Ames Housing dataset** to explore insights, visualize patterns, an
 Run this command inside your project folder (where the `Dockerfile` is located):
 
 ```bash
-docker build -t customer-analytics .
+docker build -t customer_analytics .
 
 ```
 
@@ -168,8 +168,9 @@ pip install -r requirements.txt
 ### Example Command Summary
 
 ```bash
-docker build -t customer-analytics .
+docker build -t customer_analytics .
 docker run -it --name analytics_container customer-analytics
+python ingest.py AmesHousing.csv
 python preprocess.py
 python analytics.py
 python visualize.py
