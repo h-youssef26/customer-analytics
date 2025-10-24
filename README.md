@@ -22,7 +22,7 @@ docker build -t customer-analytics .
 
 ```bash
 
-docker run -it --name analytics_container customer-analytics
+docker run -it --name customer_container customer_analytics /bin/bash
 
 python preprocess.py
 python analytics.py
