@@ -2,7 +2,6 @@
 
 # Set container and image names
 CONTAINER_NAME=customer_container
-CONTAINER_NAME=customer_analytics_container
 RESULTS_DIR=./results
 
 echo "Copying results from container to host..."
@@ -17,12 +16,7 @@ docker cp $CONTAINER_NAME:/app/pipeline/insight3.txt $RESULTS_DIR/ 2>/dev/null
 docker cp $CONTAINER_NAME:/app/pipeline/summary_plot.png $RESULTS_DIR/ 2>/dev/null
 docker cp $CONTAINER_NAME:/app/pipeline/clusters.txt $RESULTS_DIR/ 2>/dev/null
 
-echo "Stopping and removing container..."
+echo "Stopping container..."
 docker stop $CONTAINER_NAME
-docker rm $CONTAINER_NAME
 
-<<<<<<< HEAD
-echo "All results copied to 'results/' and container removed successfully!"
-=======
-echo "All results copied to 'results/' and container removed successfully!"
->>>>>>> 400d339 (final virsion)
+echo "All results copied to 'results/' successfully!"

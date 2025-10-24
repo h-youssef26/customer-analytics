@@ -1,1 +1,1 @@
-Most common category in 'MS Zoning' is 'RL' appearing 2273 times.
+Mean of first numeric column: 0.00
