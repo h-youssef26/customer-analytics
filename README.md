@@ -140,9 +140,6 @@ docker cp analytics_container:/customer-analytics/insight3.txt customer-analytic
 docker cp analytics_container:/customer-analytics/summary_plot.png customer-analytics/results/
 docker cp analytics_container:/customer-analytics/clusters.txt customer-analytics/results/
 
-# Stop and remove the container
-docker stop analytics_container
-docker rm analytics_container
 ```
 
 ### Dependencies
@@ -182,7 +179,7 @@ bash summary.sh
 
 # Authors
 
-### Hajar Muhammad Abdelhaliem 
+### Hajar Muhammad Abdelhaliem  221000755
 ### Heba Youssef 231000723
 ### Omar Magdy
 
