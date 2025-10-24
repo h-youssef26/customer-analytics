@@ -166,7 +166,7 @@ pip install -r requirements.txt
 
 ### Example Screenshot
 
-<img width="3000" height="2400" alt="summary_plot" src="https://github.com/user-attachments/assets/218f0166-e7fb-4d42-8a68-9df2ac5bd35e" />
+<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/bb45e5a5-c3f1-4468-99bb-9bbf0855a12c" />
 
 ### Example Command Summary
 
