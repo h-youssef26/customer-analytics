@@ -180,9 +180,9 @@ bash summary.sh
 
 # Authors
 
-### Hajar Muhammad Abdelhaliem - 221000755
-### Heba Youssef - 231000723
-### Omar Magdy - 231000967
+## Hajar Muhammad Abdelhaliem - 221000755
+## Heba Youssef - 231000723
+## Omar Magdy - 231000967
 
 ### Nile University — CSCI461: Introduction to Big Data
 ### Fall 2025
